@@ -1,0 +1,77 @@
+---
+title: "Init Post"
+date: "2025-06-10"
+tags: ["example", "testing", "mdx"]
+slug: "first-post"
+---
+import { InteractiveCounter } from '@/components/interactive-counter'
+import { Callout } from '@/components/ui/callout'
+
+# 🎉 Welcome to My Learning Log!
+
+&nbsp;
+
+This is the very first post using my new setup!
+
+If you're seeing this, it means Markdown rendering and metadata parsing are working properly.  
+This post is here to demonstrate how Markdown formatting works in a learning-log/blog setup.
+
+&nbsp;
+
+> ### 🧪 Example Card
+> This is a *simulated card* using a blockquote.  
+> Some Markdown engines let you style these with CSS to look like actual UI cards.  
+> Try editing this content to see how it updates on your site!
+
+&nbsp;
+
+## The Power of MDX
+
+MDX allows you to use interactive React components directly inside your Markdown files. This blends the simplicity of writing in Markdown with the power of React.
+
+### 1. Interactive Components
+
+Here is a simple interactive counter. It's a client-side component that maintains its own state.
+
+<InteractiveCounter />
+
+### 2. Components with Props
+
+You can pass props to your components to change their appearance or behavior. Here's a `Callout` component with different `type` props:
+
+<Callout type="info">
+  **Did you know?** MDX allows you to create reusable, dynamic content blocks like this one.
+</Callout>
+
+<Callout type="warning">
+  **Warning:** With great power comes great responsibility. Too many complex components can slow down your page.
+</Callout>
+
+<Callout type="idea">
+  **Idea:** You could use this to create tutorial callouts, author bios, or even product cards!
+</Callout>
+
+### 3. Using Logic in Your Content
+
+You can even use JavaScript variables and logic right in your post. We can't export variables directly from here, but we can pass in components that contain logic.
+
+For example, here's a component that renders the current date: <Today />
+
+This is just scratching the surface, but it demonstrates how MDX can make your content more engaging and dynamic than standard Markdown.
+
+&nbsp;
+
+## 🛠️ Markdown Basics
+
+You can do things like:
+
+- **Bold text** with `**bold**`
+- *Italic text* with `*italic*`
+- Inline code like `let x = 5;`
+- Code blocks:
+
+````js
+// JavaScript example
+function sayHi(name) {
+  console.log(`Hi, ${name}!`);
+}

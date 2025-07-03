@@ -43,7 +43,7 @@ export function SearchForm() {
         placeholder="Search by title, tag, date..."
         value={inputValue} // Input is now controlled by state
         onChange={(e) => setInputValue(e.target.value)} // Update state on change
-        className="w-80"
+        className="w-full sm:w-80"
       />
       <Button type="submit">Search</Button>
       {currentQuery && ( // Show clear button if a query is active in the URL

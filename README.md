@@ -1,3 +1,26 @@
+# Jotl - A Local-First, File-Based Publishing Engine
+
+Jotl is a lightweight, developer-focused publishing engine built with Next.js and Tailwind CSS. It empowers you to manage content via local Markdown files in a Git-based workflow, blending the simplicity of Markdown with the power of interactive React components.
+
+## Features
+
+- **Local-First Content:** All posts are stored as local `.mdx` files. No database needed.
+- **Git-Based Workflow:** Manage your content with the version control you already use.
+- **MDX Support:** Embed interactive React components directly in your posts.
+- **Developer-Centric Tooling:** Includes a CLI script to create new posts instantly.
+- **Themeable & Responsive:** Dark/light mode and a polished mobile experience out of the box.
+- **Fast & SEO-Friendly:** Built with Next.js for static site generation.
+
+## Creating a New Post
+
+You can quickly create a new post using the provided CLI script.
+
+```bash
+npm run new-post "Your New Post Title"
+```
+
+This command will create a new `.mdx` file in `src/content/posts` with the title, date, and slug pre-filled.
+
 # Project Setup Guide
 
 This guide walks you through setting up your development environment for the project.
