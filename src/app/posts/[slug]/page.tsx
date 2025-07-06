@@ -1,44 +1,55 @@
-// src/app/[slug]/page.tsx
-import { getPostData, getSortedPostsData, PostData } from '@/lib/posts';
+import { getPostData, getSortedPostsData } from '@/lib/posts';
 import { notFound } from 'next/navigation';
+import { MDXRemote } from 'next-mdx-remote/rsc';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { Tag } from '@/components/ui/tag';
-import { MDXRemote } from 'next-mdx-remote/rsc';
+import { PostActions } from '@/components/post-actions';
 import { InteractiveCounter } from '@/components/interactive-counter';
 import { Callout } from '@/components/ui/callout';
 
-interface PostPageProps {
-  params: { slug: string };
+export async function generateStaticParams() {
+  const posts = await getSortedPostsData();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
 }
 
-export default async function PostPage(props: PostPageProps) {
-  const params = await props.params;
-  const slug = params.slug;
-  let post;
-  try {
-    post = await getPostData(slug);
-  } catch (e) {
-    return notFound();
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const awaitedParams = await params;
+  const post = await getPostData(awaitedParams.slug);
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+    };
+  }
+  return {
+    title: post.title,
+  };
+}
+
+export default async function PostPage({ params }: { params: { slug: string } }) {
+  const awaitedParams = await params;
+  const post = await getPostData(awaitedParams.slug);
+
+  if (!post) {
+    notFound();
   }
 
-  if (!post) return notFound();
-
-  // A component to render the current date, which we'll make available to MDX.
-  const Today = () => (
-    <strong>
-      {new Date().toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })}
-    </strong>
-  );
+  const filePath = `src/content/posts/${post.id}.mdx`;
 
   const components = {
     InteractiveCounter,
     Callout,
-    Today, // Make the Today component available
+    Today: () => (
+      <strong>
+        {new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })}
+      </strong>
+    ),
   };
 
   return (
@@ -56,13 +67,16 @@ export default async function PostPage(props: PostPageProps) {
               day: 'numeric',
             })}
           </div>
-          <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
-            {post.tags?.map((tag) => (
-              <Tag key={tag}>{tag}</Tag>
-            ))}
-          </div>
+          {post.tags && post.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
+              {post.tags.map((tag) => (
+                <Tag key={tag}>{tag}</Tag>
+              ))}
+            </div>
+          )}
         </CardHeader>
         <CardContent>
+          <PostActions content={post.content} filePath={filePath} />
           <article className="prose prose-blue dark:prose-invert max-w-none">
             <MDXRemote source={post.content} components={components} />
           </article>

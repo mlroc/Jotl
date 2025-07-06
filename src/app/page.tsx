@@ -22,9 +22,11 @@ interface HomePageProps {
 const POSTS_PER_PAGE = 6;
 
 export default async function Home({ searchParams }: HomePageProps) {
+  const params = await searchParams;
+
   const allPosts = await getSortedPostsData();
 
-  const query = searchParams?.query?.toLowerCase() || '';
+  const query = params?.query?.toLowerCase() || '';
 
   // Filter posts based on the query. Now, we only have metadata here.
   const filteredPosts = allPosts.filter(post => {
@@ -36,7 +38,7 @@ export default async function Home({ searchParams }: HomePageProps) {
     return searchableContent.includes(query);
   });
 
-  const page = searchParams?.page ? parseInt(searchParams.page, 10) : 1;
+  const page = params?.page ? parseInt(params.page, 10) : 1;
   const pageNumber = isNaN(page) || page < 1 ? 1 : page;
   const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
 
