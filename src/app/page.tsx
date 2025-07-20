@@ -75,7 +75,7 @@ export default async function Home({ searchParams }: HomePageProps) {
                     {title}
                   </CardTitle>
                   <div className="text-sm text-muted-foreground">
-                    {new Date(date).toLocaleDateString('en-US', {
+                    {new Date(date + 'T00:00:00').toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',

@@ -7,6 +7,8 @@ import { Tag } from '@/components/ui/tag';
 import { PostActions } from '@/components/post-actions';
 import { InteractiveCounter } from '@/components/interactive-counter';
 import { Callout } from '@/components/ui/callout';
+import { OptimizedImage, ResponsiveImage, ThumbnailImage } from '@/components/ui/image';
+import { ImageGallery } from '@/components/image-gallery';
 
 export async function generateStaticParams() {
   const posts = await getSortedPostsData();
@@ -41,6 +43,10 @@ export default async function PostPage({ params }: { params: { slug: string } })
   const components = {
     InteractiveCounter,
     Callout,
+    OptimizedImage,
+    ResponsiveImage,
+    ThumbnailImage,
+    ImageGallery,
     Today: () => (
       <strong>
         {new Date().toLocaleDateString('en-US', {
@@ -61,7 +67,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
         <CardHeader>
           <CardTitle className="text-2xl md:text-3xl font-bold mb-2">{post.title}</CardTitle>
           <div className="text-muted-foreground text-sm mb-4">
-            {new Date(post.date).toLocaleDateString('en-US', {
+            {new Date(post.date + 'T00:00:00').toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
               day: 'numeric',
