@@ -17,7 +17,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const awaitedParams = await params;
   const post = await getPostData(awaitedParams.slug);
   if (!post) {
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function PostPage({ params }: { params: { slug: string } }) {
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const awaitedParams = await params;
   const post = await getPostData(awaitedParams.slug);
 

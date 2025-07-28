@@ -2,8 +2,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Link from "next/link"; // Import Link for navigation
-import { Button } from "@/components/ui/button"; // Optional: Use Shadcn Button for nav
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/theme-toggle";
 

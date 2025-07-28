@@ -15,8 +15,9 @@ export const PostActions = ({ content, filePath }: PostActionsProps) => {
   const [copiedContent, setCopiedContent] = useState(false);
   const [copiedPath, setCopiedPath] = useState(false);
 
-  const handleCopy = (text: string, type: 'content' | 'path') => {
-    navigator.clipboard.writeText(text).then(() => {
+  const handleCopy = async (text: string, type: 'content' | 'path') => {
+    try {
+      await navigator.clipboard.writeText(text);
       if (type === 'content') {
         setCopiedContent(true);
         setTimeout(() => setCopiedContent(false), 2000);
@@ -24,7 +25,28 @@ export const PostActions = ({ content, filePath }: PostActionsProps) => {
         setCopiedPath(true);
         setTimeout(() => setCopiedPath(false), 2000);
       }
-    });
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error);
+      // Fallback for older browsers or when clipboard API is not available
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        if (type === 'content') {
+          setCopiedContent(true);
+          setTimeout(() => setCopiedContent(false), 2000);
+        } else {
+          setCopiedPath(true);
+          setTimeout(() => setCopiedPath(false), 2000);
+        }
+      } catch (fallbackError) {
+        console.error('Fallback copy failed:', fallbackError);
+      } finally {
+        document.body.removeChild(textArea);
+      }
+    }
   };
 
   return (

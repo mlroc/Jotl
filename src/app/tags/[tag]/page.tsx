@@ -5,9 +5,9 @@ import { Tag } from '@/components/ui/tag';
 import { notFound } from 'next/navigation';
 
 interface TagPageProps {
-  params: {
+  params: Promise<{
     tag: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -19,7 +19,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: TagPageProps) {
-  const tag = decodeURIComponent(params.tag);
+  const awaitedParams = await params;
+  const tag = decodeURIComponent(awaitedParams.tag);
   return {
     title: `Posts tagged with "${tag}"`,
     description: `Find all posts tagged with "${tag}".`,
@@ -29,7 +30,8 @@ export async function generateMetadata({ params }: TagPageProps) {
 
 export default async function TagPage({ params }: TagPageProps) {
   const allPosts = await getSortedPostsData();
-  const tag = decodeURIComponent(params.tag);
+  const awaitedParams = await params;
+  const tag = decodeURIComponent(awaitedParams.tag);
 
   const filteredPosts = allPosts.filter(post =>
     post.tags.some(t => t.toLowerCase() === tag)

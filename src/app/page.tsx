@@ -1,6 +1,6 @@
 // src/app/page.tsx
 
-import { getSortedPostsData, getPostData, PostData } from '@/lib/posts';
+import { getSortedPostsData } from '@/lib/posts';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SearchForm } from '@/components/search-form';
@@ -13,10 +13,10 @@ export const metadata = {
 
 // Define props for the Home component to accept searchParams
 interface HomePageProps {
-  searchParams?: {
+  searchParams?: Promise<{
     query?: string; // Expect a search query string
     page?: string;
-  };
+  }>;
 }
 
 const POSTS_PER_PAGE = 6;
